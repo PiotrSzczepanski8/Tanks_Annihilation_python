@@ -38,6 +38,35 @@ def createBullet(pos, angle):
     bullet_img = rotateBullet(bulletImg.copy(), angle)
     bullets.append({'pos': bullet_pos, 'xfactor': xfactor, 'yfactor': yfactor, 'img': bullet_img})
 
+def createEnemies(number, hp):
+        
+    tank_limit = (square.x, square.y, square.x + 70, square.y + 50)
+    enemies_limits.append(tank_limit)
+    
+    for _ in range(number):
+        while True:
+            enemy_position = (random.randint(0, 1230), random.randint(0, 670))
+            enemy_hitbox = (enemy_position[0], enemy_position[1], enemy_position[0] + 50, enemy_position[1] + 50)
+            
+            collision = False
+            for limit in enemies_limits:
+                if enemy_hitbox[2] > limit[0] and enemy_hitbox[0] < limit[2] and enemy_hitbox[3] > limit[1] and enemy_hitbox[1] < limit[3]:
+                    collision = True
+                    break
+            
+            if not collision:
+                enemies.append({'pos': enemy_position, 'hp': hp})
+                enemies_limits.append(enemy_hitbox)
+                break
+        
+
+def drawEnemies():
+    for enemy in enemies:
+        screen.blit(enemyImg, enemy['pos'])
+
+
+createEnemies(10, 1)
+
 pygame.init()
 pygame.mouse.set_visible(False)
 
@@ -65,10 +94,11 @@ while running:
         last_shot_time = current_time
 
     drawBullets()
+    drawEnemies()
     rotateTank()
+
     screen.blit(cursor, (mouse_pos[0] - 20, mouse_pos[1] - 20))
 
     pygame.display.flip()
     clock.tick(60)
-print(len(bullets))
 pygame.quit()

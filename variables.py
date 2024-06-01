@@ -1,6 +1,7 @@
 import pygame
 import math
 import time
+import random
 
 screen = pygame.display.set_mode((1280, 720))
 pygame.display.set_caption('Tanks Annihilation')
@@ -11,7 +12,7 @@ running = True
 bullet_speed = 10
 tank_speed = 2
 
-square = pygame.Rect(1280/2-50, 720/2-50, 70, 50)
+square = pygame.Rect(1280/2-70, 720/2-50, 70, 50)
 tank_source = pygame.image.load('images/tank.png').convert_alpha()
 tank = pygame.transform.smoothscale(tank_source, (square.width, square.height))
 
@@ -27,6 +28,12 @@ bulletImg = pygame.image.load("images/tank_ammo.png")
 bulletImg = pygame.transform.scale(bulletImg, (10, 27.24))
 
 bullets = []
+enemies = []
+enemies_limits = []
+
+
+enemyImg = pygame.image.load('images/enemyTank.png').convert_alpha()
+enemyImg = pygame.transform.scale(enemyImg, (50, 50))
 
 last_shot_time = 0
 cooldown = 0.5 
